@@ -87,11 +87,12 @@
           callback = arguments[1];
         }
 
-        socket.on(name, angularCallback(callback));
+        callback = angularCallback(callback);
+        socket.on(name, callback);
 
         if (scope !== null) {
           scope.$on('$destroy', function () {
-            removeListener(name, callback);
+            socket.removeListener(name, callback);
           });
         }
       }
