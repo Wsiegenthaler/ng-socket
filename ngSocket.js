@@ -117,6 +117,15 @@
         socket.emit(name, data, angularCallback(callback));
       }
       
+      function emit(name) {
+        initializeSocket();
+        var callback = arguments[arguments.length -1];
+        if ("function" === typeof callback) {
+          arguments[arguments.length -1] = angularCallback(callback); 
+        }
+        socket.emit.apply(socket, arguments);
+      }
+      
       function getSocket() {
         return socket;
       }
