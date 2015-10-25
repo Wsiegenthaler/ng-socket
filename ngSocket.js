@@ -111,11 +111,6 @@
         initializeSocket();
         socket.removeAllListeners(name);
       }
-
-      function emit(name, data, callback) {
-        initializeSocket();
-        socket.emit(name, data, angularCallback(callback));
-      }
       
       function emit(name) {
         initializeSocket();
