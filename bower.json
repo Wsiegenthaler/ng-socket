@@ -1,11 +1,12 @@
 {
   "name": "ng-socket",
   "main": "ngSocket.js",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "authors": [
     "Christopher EnyTC <chris.enytc@gmail.com>",
     "David Prothero <david@prothero.com>",
-    "Maik Hummel <m@ikhummel.com>"
+    "Maik Hummel <m@ikhummel.com>",
+    "Xavier HEN <xavier@90tech.fr>",
   ],
   "description": "Angular Module for Socket.io",
   "keywords": [

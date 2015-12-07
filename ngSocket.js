@@ -57,7 +57,9 @@
       return service;
       ////////////////////////////////
 
-      function initializeSocket() {
+      function initializeSocket(params) {
+
+          options.query = (params.token) ? 'token=' + params.token : '';
         //Check if socket is undefined
         if (typeof socket === 'undefined') {
           if (url !== 'undefined') {
@@ -79,22 +81,16 @@
         };
       }
 
-      function addListener(name, scope, callback) {
-        initializeSocket();
+      function addListener(name, token, callback) {
+          if (arguments.length === 2) {
+            token = null;
+            callback = arguments[1];
+          }
 
-        if (arguments.length === 2) {
-          scope = null;
-          callback = arguments[1];
-        }
+        initializeSocket(token);
 
         callback = angularCallback(callback);
         socket.on(name, callback);
-
-        if (scope !== null) {
-          scope.$on('$destroy', function () {
-            socket.removeListener(name, callback);
-          });
-        }
       }
 
       function addListenerOnce(name, callback) {
@@ -111,16 +107,16 @@
         initializeSocket();
         socket.removeAllListeners(name);
       }
-      
+
       function emit(name) {
         initializeSocket();
         var callback = arguments[arguments.length -1];
         if ("function" === typeof callback) {
-          arguments[arguments.length -1] = angularCallback(callback); 
+          arguments[arguments.length -1] = angularCallback(callback);
         }
         socket.emit.apply(socket, arguments);
       }
-      
+
       function getSocket() {
         return socket;
       }
