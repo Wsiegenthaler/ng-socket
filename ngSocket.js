@@ -62,7 +62,7 @@
           addListener: addListener,
           on: addListener,
           once: addListenerOnce,
-          removeListener: removeListener,
+          removeListener: removeListener
         }
       };
 
