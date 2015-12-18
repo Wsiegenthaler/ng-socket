@@ -46,7 +46,6 @@
 
       var service = {
         addListener: addListener,
-        removeListener: removeListener,
         on: ngAddListener,
         once: ngAddListenerOnce,
         removeAllListeners: removeAllListeners,
