@@ -46,12 +46,25 @@
 
       var service = {
         addListener: addListener,
-        on: addListener,
-        once: addListenerOnce,
         removeListener: removeListener,
+        on: ngAddListener,
+        once: ngAddListenerOnce,
         removeAllListeners: removeAllListeners,
         emit: emit,
-        getSocket: getSocket
+        getSocket: getSocket,
+
+        /*
+         * By default ng-socket triggers a digest-cycle on the $rootScope for every message handled. 
+         * However convenient this practice can lead to performance issues. This part of the api 
+         * provides versions of the standard addListener/on/once handlers which delegate Angular 
+         * digest/apply concerns to the callback.
+         */
+        plain: {
+          addListener: addListener,
+          on: addListener,
+          once: addListenerOnce,
+          removeListener: removeListener,
+        }
       };
 
       return service;
@@ -79,6 +92,15 @@
         };
       }
 
+      function ngAddListener(name, scope, callback) {
+        if (arguments.length === 2) {
+          scope = null;
+          callback = arguments[1];
+        }
+
+        addListener(name, scope, angularCallback(callback));
+      }
+
       function addListener(name, scope, callback) {
         initializeSocket();
 
@@ -87,7 +109,6 @@
           callback = arguments[1];
         }
 
-        callback = angularCallback(callback);
         socket.on(name, callback);
 
         if (scope !== null) {
@@ -97,14 +118,18 @@
         }
       }
 
+      function ngAddListenerOnce(name, callback) {
+        addListenerOnce(name, angularCallback(callback));
+      }
+
       function addListenerOnce(name, callback) {
         initializeSocket();
-        socket.once(name, angularCallback(callback));
+        socket.once(name, callback);
       }
 
       function removeListener(name, callback) {
         initializeSocket();
-        socket.removeListener(name, angularCallback(callback));
+        socket.removeListener(name, callback);
       }
 
       function removeAllListeners(name) {
