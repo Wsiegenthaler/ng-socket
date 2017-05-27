@@ -6,7 +6,8 @@
   "main": "ngSocket.js",
   "dependencies": {
     "angular": "^1.5.3",
-    "socket.io-client": "^1.4.5"
+    "socket.io-client": "^2.0.0",
+    "snyk": "^1.31.0"
   },
   "homepage": "https://github.com/chrisenytc/ng-socket",
   "license": "MIT",
@@ -14,5 +15,10 @@
     "angular",
     "socket.io",
     "i18n"
-  ]
+  ],
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
